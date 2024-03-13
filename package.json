@@ -1,7 +1,7 @@
 {
-    "name": "Rossetti's-NoSQL-Challenge-Social-Network-API",
+    "name": "Rossetti-s-NoSQL-Challenge-Social-Network-API",
     "version": "1.0.1",
-    "description": "Mongoose back-end project - Main",
+    "description": "NoSQL Challenge",
     "main": "index.js",
     "license": "MIT",
     "scripts": {
@@ -10,11 +10,11 @@
       "seed": "node utils/seed"
     },
     "dependencies": {
-      "express": "^4.17.1",
-      "mongoose": "^7.0.2"
+      "express": "^4.18.3",
+      "mongoose": "^8.2.1"
     },
     "devDependencies": {
-      "nodemon": "^2.0.9"
+      "nodemon": "^3.1.0"
     }
   }
   
