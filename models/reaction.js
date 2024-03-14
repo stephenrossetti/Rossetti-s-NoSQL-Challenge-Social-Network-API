@@ -34,7 +34,6 @@ const reactionSchema = new Schema(
     }
 );
 
-
 // Create a getter method to format the timestamp on query //
 reactionSchema.virtual('timestamp').get(function () {
     return this.createdAt.getTime();
