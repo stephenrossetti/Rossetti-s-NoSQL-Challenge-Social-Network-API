@@ -4,9 +4,10 @@ const { User, Thought } = require('../models');
 
 module.exports = {
     // Get all users
+    // Added {}, { __v: 0 } so it would ignore the _V in insomnia //
     async getUsers(req, res) {
         try {
-            const users = await User.find();
+            const users = await User.find({}, { __v: 0 }).populate('thoughts.Thought');
             res.json(users);
         } catch (err) {
             res.status(500).json(err);
@@ -40,7 +41,7 @@ module.exports = {
             const user = await User.findOneAndUpdate(
                 { _id: req.params.userId },
                 { $set: req.body },
-                { runValidators: true, new: true }
+                { runValidators: true, new: true, select: { __v: 0 } }
             )
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
@@ -57,6 +58,11 @@ module.exports = {
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
+            // Need to also delete from other User's array if User is deleted //
+            await User.updateMany(
+                { friends: req.params.userId },
+                { $pull: { friends: req.params.userId } }
+            );
             await Thought.deleteMany({ _id: { $in: user.thoughts } });
             res.json({ message: 'User and associated thoughts deleted!' })
         } catch (err) {
