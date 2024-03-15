@@ -1,6 +1,6 @@
 // Import Thought model //
 // Also grab User model and reaction schema to delete info if thought is deleted //
-const { Thought, Reaction } = require('../models');
+const { Thought, User } = require('../models');
 
 module.exports = {
     // Get all thoughts
@@ -26,9 +26,19 @@ module.exports = {
         }
     },
     // Create a new thought
+    // Need to push to User's array //
     async createSingleThought(req, res) {
         try {
             const thought = await Thought.create(req.body);
+            const {_id} = thought;
+            const user = await User.findOneAndUpdate(
+                { _id: req.body.userId },
+                { $push: { thoughts: _id } },
+                { runValidators: true, new: true }
+            )
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that ID' });
+            }
             res.json(thought);
         } catch (err) {
             res.status(500).json(err);
@@ -66,16 +76,16 @@ module.exports = {
     // Add a reaction
     async addReaction(req, res) {
         try {
-            const thought = await Thought.findOneAndUpdate(
+            const reaction = await Thought.findOneAndUpdate(
                 // Use req.boy due to the API route //
                 { _id: req.params.thoughtId },
                 { $addToSet: { reactions: req.body } },
                 { runValidators: true, new: true }
             )
-            if (!thought) {
+            if (!reaction) {
                 return res.status(404).json({ message: 'No thought with that ID' });
             }
-            res.json(thought);
+            res.json({ message: 'Reaction added!' });
         } catch (err) {
             res.status(500).json(err);
         }
@@ -83,16 +93,16 @@ module.exports = {
     // Remove a reaction from Thought's list //
     async removeReaction(req, res) {
         try {
-            const thought = await Thought.findOneAndUpdate(
+            const reaction = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
                 // $pull from an existing array all instances of a value or values that match a specified condition //
-                { $pull: { reactions: {reactionId: req.params.reactionId } } },
+                { $pull: { reactions: { reactionId: req.params.reactionId } } },
                 { runValidators: true, new: true }
             )
-            if (!thought) {
+            if (!reaction) {
                 return res.status(404).json({ message: 'No thought with that ID' });
             }
-            res.json(thought);
+            res.json({ message: 'Reaction removed!' });
         } catch (err) {
             res.status(500).json(err);
         }

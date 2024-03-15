@@ -7,7 +7,7 @@ module.exports = {
     // Added {}, { __v: 0 } so it would ignore the _V in insomnia //
     async getUsers(req, res) {
         try {
-            const users = await User.find({}, { __v: 0 }).populate('thoughts.Thought');
+            const users = await User.find({}, { __v: 0 });
             res.json(users);
         } catch (err) {
             res.status(500).json(err);
@@ -81,7 +81,7 @@ module.exports = {
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
-            res.json(user);
+            res.json({message: 'Friend added!'});
         } catch (err) {
             res.status(500).json(err);
         }
@@ -99,7 +99,7 @@ module.exports = {
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
-            res.json(user);
+            res.json({message: 'Friend removed!'});
         } catch (err) {
             res.status(500).json(err);
         }
