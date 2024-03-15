@@ -1,12 +1,13 @@
 // Require mongoose and dependencies //
 // Model not needed //
-const { Schema } = require('mongoose');
+const { Schema, Types } = require('mongoose');
+const dateFormat = require("../utils/dateFormat");
 
 // Define Schema for Reaction //
 const reactionSchema = new Schema(
     {
         // Utilized Activity 26 for format. Type is already defined ObjectID and default is a set to new ObjectID //
-        reactionID: {
+        reactionId: {
             type: Schema.Types.ObjectId,
             default: () => new Types.ObjectId(),
         },
@@ -20,9 +21,11 @@ const reactionSchema = new Schema(
             required: true,
         },
         // Use mongoose Date type for easier functionality //
+        // Create a getter method to format the timestamp on query //
         createdAt: {
             type: Date,
             default: Date.now,
+            get: (timestamp) => dateFormat(timestamp),
         },
     },
     {
@@ -33,10 +36,5 @@ const reactionSchema = new Schema(
         id: false,
     }
 );
-
-// Create a getter method to format the timestamp on query //
-reactionSchema.virtual('timestamp').get(function () {
-    return this.createdAt.getTime();
-});
 
 module.exports = reactionSchema;

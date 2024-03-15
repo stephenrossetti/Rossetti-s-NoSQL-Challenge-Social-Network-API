@@ -1,6 +1,6 @@
 // Import User model //
 // Also grab Thought model to delete info if user is deleted //
-const { User, Thought } = require('./models');
+const { User, Thought } = require('../models');
 
 module.exports = {
     // Get all users

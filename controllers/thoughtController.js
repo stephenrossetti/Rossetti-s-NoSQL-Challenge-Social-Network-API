@@ -1,6 +1,6 @@
 // Import Thought model //
 // Also grab User model and reaction schema to delete info if thought is deleted //
-const { Thought, Reaction } = require('./models');
+const { Thought, Reaction } = require('../models');
 
 module.exports = {
     // Get all thoughts
@@ -86,7 +86,7 @@ module.exports = {
             const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
                 // $pull from an existing array all instances of a value or values that match a specified condition //
-                { $pull: { reactions: req.params.reactionId } },
+                { $pull: { reactions: {reactionId: req.params.reactionId } } },
                 { runValidators: true, new: true }
             )
             if (!thought) {

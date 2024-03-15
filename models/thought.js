@@ -2,6 +2,7 @@
 // Require reactionSchema to define as a reaction property below //
 const { Schema, model } = require('mongoose');
 const reactionSchema = require('./reaction');
+const dateFormat = require("../utils/dateFormat");
 
 // Define Schema to create Thought model //
 const thoughtSchema = new Schema(
@@ -13,9 +14,11 @@ const thoughtSchema = new Schema(
             maxLength: 280,
         },
         // Use mongoose Date type for easier functionality //
+        // Create a getter method to format the timestamp on query //
         createdAt: {
             type: Date,
             default: Date.now,
+            get: (timestamp) => dateFormat(timestamp),
         },
         username: {
             type: String,
@@ -37,11 +40,6 @@ const thoughtSchema = new Schema(
 // Create a virtual property `reactionCount` that gets the amount of reactions per thought //
 thoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
-});
-
-// Create a getter method to format the timestamp on query //
-thoughtSchema.virtual('timestamp').get(function () {
-    return this.createdAt.getTime();
 });
 
 // Initialize our Thought model //
