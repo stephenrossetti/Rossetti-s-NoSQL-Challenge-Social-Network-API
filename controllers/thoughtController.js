@@ -67,6 +67,10 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({ message: 'No thought with that ID' });
             }
+            await User.updateMany(
+                { thoughts: req.params.thoughtId },
+                { $pull: { thoughts: req.params.thoughtId } }
+            );
             await Thought.deleteMany({ _id: { $in: thought.reactions } });
             res.json({ message: 'Thought and associated reactions deleted!' })
         } catch (err) {
