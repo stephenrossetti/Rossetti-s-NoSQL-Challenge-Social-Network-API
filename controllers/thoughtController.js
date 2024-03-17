@@ -1,7 +1,8 @@
 // Import Thought model //
-// Also grab User model and reaction schema to delete info if thought is deleted //
+// Also grab User model to delete info if thought is deleted //
 const { Thought, User } = require('../models');
 
+// Very similar to the userController since it's a similar methodology but with thoughts and reactions //
 module.exports = {
     // Get all thoughts
     async getThoughts(req, res) {
@@ -67,10 +68,12 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({ message: 'No thought with that ID' });
             }
+            // This will update the User's thought array to pull out that deleted thought //
             await User.updateMany(
                 { thoughts: req.params.thoughtId },
                 { $pull: { thoughts: req.params.thoughtId } }
             );
+            // Delete all reactions associated with that thought //
             await Thought.deleteMany({ _id: { $in: thought.reactions } });
             res.json({ message: 'Thought and associated reactions deleted!' })
         } catch (err) {

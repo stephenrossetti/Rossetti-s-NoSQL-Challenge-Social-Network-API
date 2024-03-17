@@ -1,6 +1,6 @@
 // Import User model //
 // Also grab Thought model to delete info if user is deleted //
-const { User, Thought, Reaction } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
     // Get all users
@@ -58,11 +58,13 @@ module.exports = {
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
-            // Need to also delete from other User's array if User is deleted //
+            // Need to also delete from other User's friend array if another User is deleted //
+            // This is more of an "update" the array function than delete function //
             await User.updateMany(
                 { friends: req.params.userId },
                 { $pull: { friends: req.params.userId } }
             );
+            // Delete all thoughts if associated User is deleted //
             await Thought.deleteMany({ _id: { $in: user.thoughts } });
             res.json({ message: 'User and associated thoughts deleted!' })
         } catch (err) {

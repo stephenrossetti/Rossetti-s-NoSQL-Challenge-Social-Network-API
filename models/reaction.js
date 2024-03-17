@@ -1,6 +1,7 @@
 // Require mongoose and dependencies //
 // Model not needed //
 const { Schema, Types } = require('mongoose');
+// Grab dating formatting utility for createdAt //
 const dateFormat = require("../utils/dateFormat");
 
 // Define Schema for Reaction //
