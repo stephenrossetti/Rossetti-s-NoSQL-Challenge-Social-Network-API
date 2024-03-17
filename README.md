@@ -48,7 +48,7 @@
 </ol>
 </details>
 
-## Overview of Rossetti's NoSQL Social Network API
+## Overview of NoSQL Social Network API
 
 NoSQL Challenge: Social Network API, or Module-18's Challenge, was to build an API for a social network web application where users can share their thoughts, react to friends’ thoughts, and create a friend list. This API was built completely from scratch and tested in Insomnia and run in MongoDB Compass. The challenge uses Express.js for routing, a MongoDB database, and the Mongoose ODM. In addition to using the Express.js and Mongoose packages, the challenge also uses JavaScript date library to format timestamps.
 
