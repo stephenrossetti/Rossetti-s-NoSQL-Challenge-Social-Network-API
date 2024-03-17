@@ -37,7 +37,7 @@
 <li><a href="#installation">Installation</a></li>
 </ul>
 </li>
-<li><a href="#built-with-&-technology-used">Technology Used</a></li>
+<li><a href="#technology-used">Technology Used</a></li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#links">Links</a></li>
 <li><a href="#contributing">Contributing</a></li>
@@ -78,7 +78,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Built With & Technology Used
+## Technology Used
 
 - ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 
